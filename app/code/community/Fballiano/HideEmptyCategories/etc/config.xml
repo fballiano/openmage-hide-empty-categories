@@ -15,11 +15,11 @@
 			<hideemptycategories>
 				<class>Fballiano_HideEmptyCategories_Model</class>
 			</hideemptycategories>
-			<catalog>
+			<catalog_resource>
 				<rewrite>
-					<resource_category_flat>Fballiano_HideEmptyCategories_Model_Catalog_Resource_Category_Flat</resource_category_flat>
+					<category_flat>Fballiano_HideEmptyCategories_Model_Catalog_Resource_Category_Flat</category_flat>
 				</rewrite>
-			</catalog>
+			</catalog_resource>
 		</models>
 		<events>
 			<catalog_category_collection_load_after>
