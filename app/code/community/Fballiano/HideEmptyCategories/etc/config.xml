@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<config>
+	<modules>
+		<Fballiano_HideEmptyCategories>
+			<version>0.1.0</version>
+		</Fballiano_HideEmptyCategories>
+	</modules>
+	<global>
+		<helpers>
+			<hideemptycategories>
+				<class>Fballiano_HideEmptyCategories_Helper</class>
+			</hideemptycategories>
+		</helpers>
+		<models>
+			<hideemptycategories>
+				<class>Fballiano_HideEmptyCategories_Model</class>
+			</hideemptycategories>
+			<catalog>
+				<rewrite>
+					<resource_category_flat>Fballiano_HideEmptyCategories_Model_Catalog_Resource_Category_Flat</resource_category_flat>
+				</rewrite>
+			</catalog>
+		</models>
+		<events>
+			<catalog_category_collection_load_after>
+				<observers>
+					<catalog_category_collection_load_after_handler>
+						<type>model</type>
+						<class>hideemptycategories/observer</class>
+						<method>catalogCategoryCollectionLoadAfter</method>
+					</catalog_category_collection_load_after_handler>
+				</observers>
+			</catalog_category_collection_load_after>
+		</events>
+	</global>
+</config> 
