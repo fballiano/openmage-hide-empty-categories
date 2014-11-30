@@ -5,7 +5,7 @@ class Fballiano_HideEmptyCategories_Model_Catalog_Resource_Category_Flat extends
     {
         $nodes = parent::_loadNodes($parentNode, $recursionLevel, $storeId);
         foreach ($nodes as $node) {
-            if ($item->getDisplayMode() == "PAGE") continue;
+            if ($node->getDisplayMode() == "PAGE") continue;
             if ($node->getChildrenCategories()) continue;
             if ($node->getProductCount()) continue;
             unset($nodes[$node->getId()]);
