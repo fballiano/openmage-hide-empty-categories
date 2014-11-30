@@ -1,1 +1,2 @@
-app/*       app
+app/code/community/Fballiano/HideEmptyCategories/               app/code/community/Fballiano/HideEmptyCategories/
+app/etc/modules/Fballiano_HideEmptyCategories.xml               app/etc/modules/Fballiano_HideEmptyCategories.xml
