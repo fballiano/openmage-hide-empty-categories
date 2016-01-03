@@ -25,9 +25,12 @@ class Fballiano_HideEmptyCategories_Model_Catalog_Resource_Category_Flat extends
     protected function _loadNodes($parentNode = null, $recursionLevel = 0, $storeId = 0, $onlyActive = true)
     {
         $nodes = parent::_loadNodes($parentNode, $recursionLevel, $storeId, $onlyActive);
+
+        $category_collection = Mage::getResourceModel('catalog/category_collection');
+        $category_collection->loadProductCount($nodes, true, true);
+
         foreach ($nodes as $node) {
             if ($node->getDisplayMode() == "PAGE") continue;
-            if ($node->getChildrenCategories()) continue;
             if ($node->getProductCount()) continue;
             unset($nodes[$node->getId()]);
         }

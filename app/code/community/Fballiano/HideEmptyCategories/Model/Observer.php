@@ -32,15 +32,16 @@ class Fballiano_HideEmptyCategories_Model_Observer
     {
         $collection = $observer->getEvent()->getCategoryCollection();
         $collection->addAttributeToSelect("display_mode");
+        $collection->addAttributeToSelect("is_anchor");
     }
 
     public function catalogCategoryCollectionLoadAfter(Varien_Event_Observer $observer)
     {
         $collection = $observer->getEvent()->getCategoryCollection();
+        $collection->loadProductCount($collection->getItems(), true, true);
         foreach ($collection as $key => $item) {
             if ($item->getEntityTypeId() == 3) {
                 if ($item->getDisplayMode() == "PAGE") continue;
-                if ($item->getChildrenCount()) continue;
                 if ($item->getProductCount()) continue;
                 $collection->removeItemByKey($key);
             }
