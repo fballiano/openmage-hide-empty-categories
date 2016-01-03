@@ -1,7 +1,7 @@
 Magento Hide Empty Categories
 =============================
 
-Removes categories with no children and no products when loading a categories collection
+Removes categories with no products when loading a categories collection
 
 Backup!!!
 ---------
@@ -19,7 +19,7 @@ modman clone https://github.com/fballiano/magento-hide-empty-categories
 
 Compatibility
 -------------
-This module was developed on Magento 1.8.
+This module was developed on Magento 1.9.
 If you have a different version of Magento and the module is working please drop me a line so I can update this compatibility list.
 
 Support
