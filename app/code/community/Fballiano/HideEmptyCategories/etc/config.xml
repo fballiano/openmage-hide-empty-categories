@@ -21,6 +21,8 @@
                 </rewrite>
             </catalog_resource>
         </models>
+    </global>
+    <frontend>
         <events>
             <catalog_category_flat_loadnodes_before>
                 <observers>
@@ -50,5 +52,5 @@
                 </observers>
             </catalog_category_collection_load_after>
         </events>
-    </global>
+    </frontend>
 </config>
