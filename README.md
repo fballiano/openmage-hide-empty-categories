@@ -33,7 +33,7 @@ Any contributions are highly appreciated. The best way to contribute code is to 
 
 Developer
 ---------
-Fabrizio Balliano
+Fabrizio Balliano  
 [http://fabrizioballiano.com](http://fabrizioballiano.com)  
 [@fballiano](https://twitter.com/fballiano)
 
