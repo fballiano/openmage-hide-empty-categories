@@ -1,4 +1,5 @@
 <?php
+
 /**
  * FBalliano
  *
@@ -19,21 +20,43 @@
  * @copyright  Copyright (c) 2014 Fabrizio Balliano (http://fabrizioballiano.it)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 class Fballiano_HideEmptyCategories_Model_Catalog_Resource_Category_Flat extends Mage_Catalog_Model_Resource_Category_Flat
 {
+    protected $nodes;
     protected function _loadNodes($parentNode = null, $recursionLevel = 0, $storeId = 0, $onlyActive = true)
     {
-        $nodes = parent::_loadNodes($parentNode, $recursionLevel, $storeId, $onlyActive);
+        $this->nodes = parent::_loadNodes($parentNode, $recursionLevel, $storeId, $onlyActive);
 
         $category_collection = Mage::getResourceModel('catalog/category_collection');
-        $category_collection->loadProductCount($nodes, true, true);
+        $category_collection->loadProductCount($this->nodes, true, true);
 
-        foreach ($nodes as $node) {
+        foreach ($this->nodes as $node) {
             if ($node->getDisplayMode() == "PAGE") continue;
-            if ($node->getProductCount()) continue;
-            unset($nodes[$node->getId()]);
+            if (strlen($node->getChildren())>0) continue;
+            if ($node->getProductCount() < 4) {
+                unset($this->nodes[$node->getId()]);
+                continue;
+            }
+            if(!$this->checkProductsInStock($node,4)){
+                unset($this->nodes[$node->getId()]);
+            }
+
         }
-        return $nodes;
+        return $this->nodes;
     }
+
+    protected function checkProductsInStock($category,$minimumNumber)   {
+        $productCollection = Mage::getResourceModel('catalog/product_collection')
+            ->addAttributeToSelect(array('name'))
+            ->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
+
+        $productCollection->addCategoryFilter($category);
+
+        Mage::getSingleton('cataloginventory/stock')
+            ->addInStockFilterToCollection($productCollection);
+
+        return $productCollection->getSize() >= $minimumNumber;
+    }
+
+
 }
