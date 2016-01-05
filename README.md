@@ -1,7 +1,7 @@
 Magento Hide Empty Categories
 =============================
 
-Removes categories with no products when loading a categories collection
+Removes categories with less than the number of products, configurable from the control panel
 
 Backup!!!
 ---------
@@ -36,6 +36,8 @@ Developer
 Fabrizio Balliano
 [http://fabrizioballiano.com](http://fabrizioballiano.com)  
 [@fballiano](https://twitter.com/fballiano)
+
+Maurizio Brioschi @ [Mothership](http://www.mothership.de)
 
 Licence
 -------
