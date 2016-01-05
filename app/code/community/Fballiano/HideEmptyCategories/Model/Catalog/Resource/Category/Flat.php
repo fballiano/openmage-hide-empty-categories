@@ -40,8 +40,28 @@ class Fballiano_HideEmptyCategories_Model_Catalog_Resource_Category_Flat extends
         }, $categories_products, array_keys($categories_products));
         foreach ($nodes as $node) {
             if ($node->getDisplayMode() == "PAGE") continue;
-            if (strlen($node->getChildren()) > 0) continue;
+            $children = $node->getChildren();
+            if (strlen($children) > 0) {
+                $subcategories = explode(",", $children);
+                $count_subcategories = count($subcategories);
+                foreach ($subcategories as $cat) {
+                    if (!$helper->_hasProducts($cat)) {
+                        unset($nodes[$cat]);
+                    }
+                }
+
+                if ($count_subcategories == 0) {
+                    unset($nodes[$node->getId()]);
+                }
+                continue;
+            }
+
             if (in_array($node->getId(), $categories_to_hide)) {
+                unset($nodes[$node->getId()]);
+                continue;
+            }
+
+            if (!$helper->_hasProducts($node->getId())) {
                 unset($nodes[$node->getId()]);
             }
         }

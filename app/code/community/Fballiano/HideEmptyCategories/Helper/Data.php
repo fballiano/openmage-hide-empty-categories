@@ -32,10 +32,9 @@ class Fballiano_HideEmptyCategories_Helper_Data extends Mage_Core_Helper_Abstrac
     {
         $query = "select ccp.category_id,count(csi.product_id) as products_count from `catalog_product_super_link` cpsl
                     JOIN catalog_category_product ccp ON cpsl.`parent_id`=ccp.product_id
-                    JOIN cataloginventory_stock_item csi ON csi.`product_id` = cpsl.product_id
-                    where csi.qty>0  AND csi.`is_in_stock`>0";
+                    JOIN cataloginventory_stock_item csi ON csi.`product_id` = cpsl.product_id";
         if (!is_null($category)) {
-            $query .= " AND ccp.category_id=" . $category->getEntityId();
+            $query .= " WHERE ccp.category_id=" . $category->getEntityId();
         }
 
         $query .= " GROUP BY ccp.category_id HAVING products_count<" . $minimumItemsNumber;
@@ -45,5 +44,26 @@ class Fballiano_HideEmptyCategories_Helper_Data extends Mage_Core_Helper_Abstrac
         $results = $readConnection->fetchAll($query);
 
         return $results;
+    }
+
+    /**
+     * Return true if category has products
+     * @param $category_id
+     * @param int $minimumItemsNumber
+     * @return bool
+     */
+    public function _hasProducts($category_id, $minimumItemsNumber = 1)
+    {
+        $products = Mage::getModel('catalog/category')->load($category_id)
+            ->getProductCollection()
+            ->addAttributeToSelect('entity_id')
+            ->addAttributeToFilter('status', 1)
+            ->addAttributeToFilter('visibility', 4);
+
+        // Add filter to exclude products that are not on stock
+        Mage::getModel('cataloginventory/stock_status')->addIsInStockFilterToCollection($products);
+
+        return ($products->count() > $minimumItemsNumber) ? true : false;
+
     }
 }
