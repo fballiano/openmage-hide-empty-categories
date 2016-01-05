@@ -37,6 +37,8 @@ Fabrizio Balliano
 [http://fabrizioballiano.com](http://fabrizioballiano.com)  
 [@fballiano](https://twitter.com/fballiano)
 
+Maurizio Brioschi @ [Mothership](http://www.mothership.de)
+
 Licence
 -------
 [OSL - Open Software Licence 3.0](http://opensource.org/licenses/osl-3.0.php)
