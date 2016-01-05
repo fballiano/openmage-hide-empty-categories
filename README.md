@@ -1,7 +1,7 @@
 Magento Hide Empty Categories
 =============================
 
-Removes categories with no products when loading a categories collection
+Removes categories with less than the number of products, configurable from the control panel
 
 Backup!!!
 ---------
