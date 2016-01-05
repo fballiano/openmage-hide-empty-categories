@@ -26,7 +26,7 @@
 
                     <fields>
                         <hideemptycategories_input translate="label">
-                            <label>Minimum products for category: </label>
+                            <label>Minimum products for category:</label>
                             <comment>Minimum products number to not hide a category</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>20</sort_order>

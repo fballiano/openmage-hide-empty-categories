@@ -30,16 +30,18 @@ class Fballiano_HideEmptyCategories_Model_Catalog_Resource_Category_Flat extends
         $category_collection = Mage::getResourceModel('catalog/category_collection');
         $category_collection->loadProductCount($nodes, true, true);
 
-        $minimum_items = Mage::getStoreConfig('hideemptycategories_options/hideemptycategories_group/hideemptycategories_input',Mage::app()->getStore());
+        $minimum_items = Mage::getStoreConfig('hideemptycategories_options/hideemptycategories_group/hideemptycategories_input', Mage::app()->getStore());
 
         //retrieve sellable products foreach category
         $helper = new Fballiano_HideEmptyCategories_Helper_Data();
         $categories_products = $helper->getNotSellableCategories($minimum_items);
-        $categories_to_hide = array_map(function ($v, $k) { return $v['category_id']; }, $categories_products, array_keys($categories_products));
+        $categories_to_hide = array_map(function ($v, $k) {
+            return $v['category_id'];
+        }, $categories_products, array_keys($categories_products));
         foreach ($nodes as $node) {
             if ($node->getDisplayMode() == "PAGE") continue;
             if (strlen($node->getChildren()) > 0) continue;
-            if (in_array($node->getId(),$categories_to_hide)) {
+            if (in_array($node->getId(), $categories_to_hide)) {
                 unset($nodes[$node->getId()]);
             }
         }
