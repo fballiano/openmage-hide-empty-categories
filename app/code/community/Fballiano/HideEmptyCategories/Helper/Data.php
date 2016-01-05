@@ -1,4 +1,5 @@
 <?php
+
 /**
  * FBalliano
  *
@@ -19,7 +20,30 @@
  * @copyright  Copyright (c) 2014 Fabrizio Balliano (http://fabrizioballiano.it)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-
 class Fballiano_HideEmptyCategories_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    /**
+     * Get categories_id and number of sellable products having less than $minimumItemsNumber
+     * @param int $minimumItemsNumber
+     * @param Mage_Catalog_Model_Category $category to filter for
+     * @return array representing category_id and numbers of products
+     */
+    public function getNotSellableCategories($minimumItemsNumber = 1, $category = null)
+    {
+        $query = "select ccp.category_id,count(csi.product_id) as products_count from `catalog_product_super_link` cpsl
+                    JOIN catalog_category_product ccp ON cpsl.`parent_id`=ccp.product_id
+                    JOIN cataloginventory_stock_item csi ON csi.`product_id` = cpsl.product_id
+                    where csi.qty>0  AND csi.`is_in_stock`>0";
+        if (!is_null($category)) {
+            $query .= " AND ccp.category_id=" . $category->getEntityId();
+        }
+
+        $query .= " GROUP BY ccp.category_id HAVING products_count<" . $minimumItemsNumber;
+
+        $resource = Mage::getSingleton('core/resource');
+        $readConnection = $resource->getConnection('core_read');
+        $results = $readConnection->fetchAll($query);
+
+        return $results;
+    }
 }
