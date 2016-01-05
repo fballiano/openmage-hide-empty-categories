@@ -22,6 +22,18 @@
 
 class Fballiano_HideEmptyCategories_Model_Observer extends Mage_Core_Model_Abstract
 {
+    public function catalogCategoryFlatLoadnodesBefore(Varien_Event_Observer $observer)
+    {
+        $select = $observer->getEvent()->getSelect();
+        $select->columns("display_mode");
+    }
+
+    public function catalogCategoryCollectionLoadBefore(Varien_Event_Observer $observer)
+    {
+        $collection = $observer->getEvent()->getCategoryCollection();
+        $collection->addAttributeToSelect("display_mode");
+        $collection->addAttributeToSelect("is_anchor");
+    }
 
     public function catalogCategoryCollectionLoadAfter(Varien_Event_Observer $observer)
     {
@@ -35,16 +47,19 @@ class Fballiano_HideEmptyCategories_Model_Observer extends Mage_Core_Model_Abstr
      */
     protected function _removeHiddenCollectionItems($collection)
     {
+        $helper = new Fballiano_HideEmptyCategories_Helper_Data();
+        $categories_products = $helper->getNotSellableCategories(4);
+        $categories_to_hide = array_map(function ($v, $k) { return $v['category_id']; }, $categories_products, array_keys($categories_products));
         // Loop through each category or product
         foreach ($collection as $key => $item) {
             // If it is a category
             if ($item->getEntityTypeId() == 3) {
                 if ($item->getDisplayMode() == "PAGE") continue;
-                if ($item->getProductCount()) continue;
-                if (count($item->getChildren()) > 0) continue;
-                if ($item->getProductCount() < 4) {
+                if (strlen($item->getChildren()) > 0) continue;
+                if (in_array($key,$categories_to_hide)) {
                     $collection->removeItemByKey($key);
                 }
+
             }
         }
     }

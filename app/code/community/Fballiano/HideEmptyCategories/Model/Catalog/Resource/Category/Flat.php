@@ -22,41 +22,26 @@
  */
 class Fballiano_HideEmptyCategories_Model_Catalog_Resource_Category_Flat extends Mage_Catalog_Model_Resource_Category_Flat
 {
-    protected $nodes;
+
     protected function _loadNodes($parentNode = null, $recursionLevel = 0, $storeId = 0, $onlyActive = true)
     {
-        $this->nodes = parent::_loadNodes($parentNode, $recursionLevel, $storeId, $onlyActive);
+        $nodes = parent::_loadNodes($parentNode, $recursionLevel, $storeId, $onlyActive);
 
         $category_collection = Mage::getResourceModel('catalog/category_collection');
-        $category_collection->loadProductCount($this->nodes, true, true);
+        $category_collection->loadProductCount($nodes, true, true);
 
-        foreach ($this->nodes as $node) {
+        //retrieve sellable products foreach category
+        $helper = new Fballiano_HideEmptyCategories_Helper_Data();
+        $categories_products = $helper->getNotSellableCategories(6);
+        $categories_to_hide = array_map(function ($v, $k) { return $v['category_id']; }, $categories_products, array_keys($categories_products));
+        foreach ($nodes as $node) {
             if ($node->getDisplayMode() == "PAGE") continue;
-            if (strlen($node->getChildren())>0) continue;
-            if ($node->getProductCount() < 4) {
-                unset($this->nodes[$node->getId()]);
-                continue;
+            if (strlen($node->getChildren()) > 0) continue;
+            if (in_array($node->getId(),$categories_to_hide)) {
+                unset($nodes[$node->getId()]);
             }
-            if(!$this->checkProductsInStock($node,4)){
-                unset($this->nodes[$node->getId()]);
-            }
-
         }
-        return $this->nodes;
+        return $nodes;
     }
-
-    protected function checkProductsInStock($category,$minimumNumber)   {
-        $productCollection = Mage::getResourceModel('catalog/product_collection')
-            ->addAttributeToSelect(array('name'))
-            ->addAttributeToFilter('status', array('eq' => Mage_Catalog_Model_Product_Status::STATUS_ENABLED));
-
-        $productCollection->addCategoryFilter($category);
-
-        Mage::getSingleton('cataloginventory/stock')
-            ->addInStockFilterToCollection($productCollection);
-
-        return $productCollection->getSize() >= $minimumNumber;
-    }
-
 
 }
