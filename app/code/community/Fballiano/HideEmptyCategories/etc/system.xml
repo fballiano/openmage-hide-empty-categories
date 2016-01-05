@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <tabs>
+        <magento-hide-empty-categories translate="label" module="hideemptycategories">
+            <label>Hide Empty Categories</label>
+            <sort_order>100</sort_order>
+        </magento-hide-empty-categories>
+    </tabs>
+    <sections>
+        <hideemptycategories_options translate="label" module="hideemptycategories">
+            <label>Extension Options</label>
+            <tab>magento-hide-empty-categories</tab>
+            <sort_order>1000</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+
+            <groups>
+                <hideemptycategories_group translate="label" module="hideemptycategories">
+                    <label>Options</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>1000</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+
+                    <fields>
+                        <hideemptycategories_input translate="label">
+                            <label>Minimum products for category: </label>
+                            <comment>Minimum products number to not hide a category</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </hideemptycategories_input>
+                    </fields>
+                </hideemptycategories_group>
+            </groups>
+        </hideemptycategories_options>
+    </sections>
+</config>

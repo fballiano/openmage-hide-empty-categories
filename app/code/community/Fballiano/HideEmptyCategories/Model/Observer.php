@@ -47,8 +47,9 @@ class Fballiano_HideEmptyCategories_Model_Observer extends Mage_Core_Model_Abstr
      */
     protected function _removeHiddenCollectionItems($collection)
     {
+        $minimum_items = Mage::getStoreConfig('hideemptycategories_options/hideemptycategories_group/hideemptycategories_input',Mage::app()->getStore());
         $helper = new Fballiano_HideEmptyCategories_Helper_Data();
-        $categories_products = $helper->getNotSellableCategories(4);
+        $categories_products = $helper->getNotSellableCategories($minimum_items);
         $categories_to_hide = array_map(function ($v, $k) { return $v['category_id']; }, $categories_products, array_keys($categories_products));
         // Loop through each category or product
         foreach ($collection as $key => $item) {
