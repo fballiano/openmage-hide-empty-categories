@@ -17,6 +17,7 @@
  *
  * @category   FBalliano
  * @package    Fballiano_HideEmptyCategories
+ * @author Maurizio Brioschi<brioschi@mothership.de>
  * @copyright  Copyright (c) 2014 Fabrizio Balliano (http://fabrizioballiano.it)
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
