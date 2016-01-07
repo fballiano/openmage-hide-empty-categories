@@ -23,31 +23,7 @@
 class Fballiano_HideEmptyCategories_Helper_Data extends Mage_Core_Helper_Abstract
 {
     /**
-     * Get categories_id and number of sellable products having less than $minimumItemsNumber
-     * @param int $minimumItemsNumber
-     * @param Mage_Catalog_Model_Category $category to filter for
-     * @return array representing category_id and numbers of products
-     */
-    public function getNotSellableCategories($minimumItemsNumber = 1, $category = null)
-    {
-        $query = "select ccp.category_id,count(csi.product_id) as products_count from `catalog_product_super_link` cpsl
-                    JOIN catalog_category_product ccp ON cpsl.`parent_id`=ccp.product_id
-                    JOIN cataloginventory_stock_item csi ON csi.`product_id` = cpsl.product_id";
-        if (!is_null($category)) {
-            $query .= " WHERE ccp.category_id=" . $category->getEntityId();
-        }
-
-        $query .= " GROUP BY ccp.category_id HAVING products_count<" . $minimumItemsNumber;
-
-        $resource = Mage::getSingleton('core/resource');
-        $readConnection = $resource->getConnection('core_read');
-        $results = $readConnection->fetchAll($query);
-
-        return $results;
-    }
-
-    /**
-     * Return true if category has products
+     * Check if a $category has the $minimum sellable items
      * @param $category_id
      * @param int $minimumItemsNumber
      * @return bool
@@ -63,7 +39,7 @@ class Fballiano_HideEmptyCategories_Helper_Data extends Mage_Core_Helper_Abstrac
         // Add filter to exclude products that are not on stock
         Mage::getModel('cataloginventory/stock_status')->addIsInStockFilterToCollection($products);
 
-        return ($products->count() > $minimumItemsNumber) ? true : false;
+        return ($products->count() >= $minimumItemsNumber);
 
     }
 }
