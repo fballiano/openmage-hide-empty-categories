@@ -77,4 +77,11 @@
             </resources>
         </acl>
     </adminhtml>
+    <default>
+        <hideemptycategories_options>
+            <hideemptycategories_group>
+                <hideemptycategories_input>4</hideemptycategories_input>
+            </hideemptycategories_group>
+        </hideemptycategories_options>
+    </default>
 </config>
