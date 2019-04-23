@@ -32,17 +32,22 @@ class Fballiano_HideEmptyCategories_Model_Observer
     {
         $collection = $observer->getEvent()->getCategoryCollection();
         $collection->addAttributeToSelect("display_mode");
-        $collection->addAttributeToSelect("is_anchor");
     }
 
     public function catalogCategoryCollectionLoadAfter(Varien_Event_Observer $observer)
     {
         $collection = $observer->getEvent()->getCategoryCollection();
-        $collection->loadProductCount($collection->getItems(), true, true);
+        $core_resource = Mage::getSingleton('core/resource');
+        $category_product_index_table = $core_resource->getTableName('catalog/category_product_index');
+        $db = $core_resource->getConnection('core_read');
+        $category_product_count = $db->fetchPairs("SELECT category_id, COUNT(*) FROM $category_product_index_table WHERE visibility IN (2,4) AND store_id=? GROUP BY category_id", array(
+            Mage::app()->getStore()->getId()
+        ));
+
         foreach ($collection as $key => $item) {
             if ($item->getEntityTypeId() == 3) {
                 if ($item->getDisplayMode() == "PAGE") continue;
-                if ($item->getProductCount()) continue;
+                if (@$category_product_count[$item->getId()]) continue;
                 $collection->removeItemByKey($key);
             }
         }

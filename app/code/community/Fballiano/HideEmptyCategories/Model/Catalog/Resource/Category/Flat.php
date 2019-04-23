@@ -26,12 +26,16 @@ class Fballiano_HideEmptyCategories_Model_Catalog_Resource_Category_Flat extends
     {
         $nodes = parent::_loadNodes($parentNode, $recursionLevel, $storeId, $onlyActive);
 
-        $category_collection = Mage::getResourceModel('catalog/category_collection');
-        $category_collection->loadProductCount($nodes, true, true);
+        $core_resource = Mage::getSingleton('core/resource');
+        $category_product_index_table = $core_resource->getTableName('catalog/category_product_index');
+        $db = $core_resource->getConnection('core_read');
+        $category_product_count = $db->fetchPairs("SELECT category_id, COUNT(*) FROM $category_product_index_table WHERE visibility IN (2,4) AND store_id=? GROUP BY category_id", array(
+            $storeId
+        ));
 
         foreach ($nodes as $node) {
             if ($node->getDisplayMode() == "PAGE") continue;
-            if ($node->getProductCount()) continue;
+            if (@$category_product_count[$node->getId()]) continue;
             unset($nodes[$node->getId()]);
         }
         return $nodes;
