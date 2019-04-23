@@ -19,7 +19,7 @@ modman clone https://github.com/fballiano/magento-hide-empty-categories
 
 Compatibility
 -------------
-This module was developed on Magento 1.9.
+This module was developed on Magento 1.9.4.1.
 If you have a different version of Magento and the module is working please drop me a line so I can update this compatibility list.
 
 Support
