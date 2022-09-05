@@ -1,25 +1,25 @@
 {
-   "name":"fballiano/openmage-hide-empty-categories",
-   "license":"OSL-3.0",
-   "type":"magento-module",
-   "description":"Removes categories with no children and no products when loading a categories collection",
-   "homepage":"https://github.com/fballiano/openmage-hide-empty-categories",
-   "require":{
-      "php":">=5.3.0",
-      "magento-hackathon/magento-composer-installer":"*"
-   },
-   "repositories":[
-      {
-         "type":"composer",
-         "url":"http://packages.firegento.com"
-      }
-   ],
-   "authors":[
-      {
-         "name":"Fabrizio Balliano",
-         "email":"fabrizio@fabrizioballiano.it",
-         "homepage":"http://fabrizioballiano.it",
-         "role":"Developer"
-      }
-   ]
+  "name": "fballiano/openmage-hide-empty-categories",
+  "license": "OSL-3.0",
+  "type": "magento-module",
+  "description": "Removes categories with no children and no products when loading a categories collection",
+  "homepage": "https://github.com/fballiano/openmage-hide-empty-categories",
+  "require": {
+    "php": ">=7.4.0",
+    "magento-hackathon/magento-composer-installer": "*"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "http://packages.firegento.com"
+    }
+  ],
+  "authors": [
+    {
+      "name": "Fabrizio Balliano",
+      "email": "fabrizio@fabrizioballiano.com",
+      "homepage": "https://fabrizioballiano.com",
+      "role": "Developer"
+    }
+  ]
 }
