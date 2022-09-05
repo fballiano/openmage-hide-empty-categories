@@ -1,5 +1,5 @@
 {
-   "name":"fballiano/magento-hide-empty-categories",
+   "name":"fballiano/openmage-hide-empty-categories",
    "license":"OSL-3.0",
    "type":"magento-module",
    "description":"Removes categories with no children and no products when loading a categories collection",
